@@ -138,15 +138,29 @@ def kosten() -> None:
         st.metric('Gesamtkosten', f"{df['kosten'].sum()} €")
 
 
-with open('./config.yml', 'r', encoding='utf-8') as file:
-    config = yaml.load(file, Loader=yaml.SafeLoader)
+# with open('./config.yml', 'r', encoding='utf-8') as file:
+#     config = yaml.load(file, Loader=yaml.SafeLoader)
 
-# Creating the authenticator object
+
+credentials = {
+    "usernames": {
+        username: {
+            "name": st.secrets["credentials"]["usernames"][username]["name"],
+            "password": st.secrets["credentials"]["usernames"][username]["password"],
+        }
+        for username in st.secrets["credentials"]["usernames"]
+    }
+}
+
+# Parse cookie config
+cookie_config = st.secrets["cookie"]
+
+# Create authenticator
 authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days']
+    credentials,
+    cookie_name=cookie_config["name"],
+    key=cookie_config["key"],
+    cookie_expiry_days=int(cookie_config["expiry_days"]),
 )
 
 try:

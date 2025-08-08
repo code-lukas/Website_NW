@@ -1,0 +1,10 @@
+credentials:
+  usernames:
+    test:
+      name: participant
+      password: $2b$12$fZmF.qAo5QF6ozlyaupNt.6F1CiV5pHM7XbReH0zfQjNOvO06a11a  # HappyToBeHere!
+
+cookie:
+  expiry_days: 30
+  key: random_signature_key
+  name: random_cookie_name

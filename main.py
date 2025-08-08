@@ -142,7 +142,7 @@ def kosten() -> None:
 with open('./config.yml') as file:
     config = yaml.load(file, Loader=yaml.SafeLoader)
 
-authenticator = stauth.authenticate.Authenticate(
+authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
     config['cookie']['key'],

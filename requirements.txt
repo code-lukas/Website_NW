@@ -1,6 +1,6 @@
 streamlit~=1.41.1
 PyYAML~=6.0
-pandas~=2.0.3
-streamlit-authenticator~=0.3.2
+pandas
+streamlit-authenticator
 pydeck~=0.8.0
 PyYAML~=6.0

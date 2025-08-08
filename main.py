@@ -3,7 +3,6 @@ import streamlit as st
 import streamlit_authenticator as stauth
 import pydeck as pdk
 import yaml
-import time
 
 db_path = "./meta.sqlite3"
 questions_file_path = './data/questions.txt'
@@ -139,43 +138,28 @@ def kosten() -> None:
         st.metric('Gesamtkosten', f"{df['kosten'].sum()} €")
 
 
-with open('./config.yml') as file:
+with open('./config.yml', 'r', encoding='utf-8') as file:
     config = yaml.load(file, Loader=yaml.SafeLoader)
 
+# Creating the authenticator object
 authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
     config['cookie']['key'],
-    config['cookie']['expiry_days'],
+    config['cookie']['expiry_days']
 )
 
-# Initialize session state for authentication and message refreshing
-if "authentication_status" not in st.session_state:
-    st.session_state["authentication_status"] = None
-    st.session_state["username"] = None
-    st.session_state["name"] = None
+try:
+    authenticator.login()
+except Exception as e:
+    st.error(e)
 
-if "clear_messages_trigger" not in st.session_state:
-    st.session_state["clear_messages_trigger"] = False
-
-if "last_refresh_time" not in st.session_state:
-    st.session_state["last_refresh_time"] = time.time()
-
-# Login form
-if st.session_state["authentication_status"] is None:
-    name, authentication_status, username = authenticator.login()
-    if authentication_status:
-        st.session_state["authentication_status"] = True
-        st.session_state["username"] = username
-        st.session_state["name"] = name
-    elif authentication_status is False:
-        st.error("Username/password is incorrect")
-else:
-    name = st.session_state["name"]
-    username = st.session_state["username"]
-
-# Main application
-if st.session_state["authentication_status"]:
+# Authenticating user
+if st.session_state['authentication_status']:
     karte()
     fragen()
     kosten()
+elif st.session_state['authentication_status'] is False:
+    st.error('Username/password is incorrect')
+elif st.session_state['authentication_status'] is None:
+    st.warning('Please enter your username and password')

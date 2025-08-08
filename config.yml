@@ -1,8 +1,8 @@
 credentials:
   usernames:
     test:
-      name: participant
-      password: $2b$12$fZmF.qAo5QF6ozlyaupNt.6F1CiV5pHM7XbReH0zfQjNOvO06a11a  # HappyToBeHere!
+      name: test
+      password: $2b$12$IduJyao8woXr545errWM8ux9CDFPcDIv4bPpdVuGD2PMYpHXAlhPO
 
 cookie:
   expiry_days: 30
